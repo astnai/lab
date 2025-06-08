@@ -19,7 +19,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "astnai/labs",
+  title: {
+    template: "astnai/%s",
+    default: "astnai/lab",
+  },
 };
 
 export default function RootLayout({
@@ -28,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden touch-manipulation">
       <body
         className={`${geistSans.className} ${geistMono.variable} ${lora.variable} antialiased text-sm sm:text-base text-neutral-800 dark:text-neutral-200`}
       >

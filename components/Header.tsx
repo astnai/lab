@@ -17,16 +17,16 @@ const Header = () => {
     <header
       className={`sticky top-0 z-50 bg-white dark:bg-neutral-950 ${borderClass}`}
     >
-      <nav className="flex py-2.5 sm:px-2.5 px:4-5 items-center justify-between">
+      <nav className="flex py-2.5 sm:px-2.5 px-4.5 items-center justify-between">
         <Link
           href="/"
-          className="group inline-flex items-center"
+          className="group inline-flex items-center font-lora font-medium"
           aria-label="Go to homepage"
           tabIndex={0}
         >
           <h1 className="group-hover:text-neutral-500">astnai</h1>
           <span
-            className="text-neutral-500 font-lora font-medium"
+            className="text-neutral-500"
             aria-label={`Current page: ${isHome ? "lab" : pathname.slice(1)}`}
           >
             {isHome ? "/labs" : pathname}
