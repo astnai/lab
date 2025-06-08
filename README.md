@@ -1,4 +1,4 @@
-# labs.astnai.com
+# lab.astnai.com
 
 A collection of experimental user interfaces.
 
