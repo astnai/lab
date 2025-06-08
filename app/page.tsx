@@ -20,7 +20,7 @@ export default function Home() {
               href={`/${page}`}
               className="
                 flex items-center justify-center
-                aspect-square cursor-alias
+                aspect-square
                 bg-white dark:bg-neutral-950
                 ring ring-neutral-800/10 dark:ring-neutral-200/10
                 rounded-none hover:rounded-sm
