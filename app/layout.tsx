@@ -19,10 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: "astnai/%s",
-    default: "astnai/lab",
-  },
+  title: "astnai/lab",
 };
 
 export default function RootLayout({

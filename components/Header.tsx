@@ -29,7 +29,7 @@ const Header = () => {
             className="text-neutral-500"
             aria-label={`Current page: ${isHome ? "lab" : pathname.slice(1)}`}
           >
-            {isHome ? "/labs" : pathname}
+            {isHome ? "/lab" : pathname}
           </span>
         </Link>
 
