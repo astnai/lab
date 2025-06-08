@@ -1,6 +1,6 @@
 # labs.astnai.com
 
-A collection of experimental user interfaces. Repository designed so that each component is numbered within the [/app](./app) folder
+A collection of experimental user interfaces.
 
 ![Screenshot of the application](/cool-screenshot.png)
 
