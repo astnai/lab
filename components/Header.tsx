@@ -27,7 +27,7 @@ const Header = () => {
           <h1 className="group-hover:text-neutral-500">astnai</h1>
           <span
             className="text-neutral-500 font-lora font-medium"
-            aria-label={`Current page: ${isHome ? "labs" : pathname.slice(1)}`}
+            aria-label={`Current page: ${isHome ? "lab" : pathname.slice(1)}`}
           >
             {isHome ? "/labs" : pathname}
           </span>
@@ -36,7 +36,7 @@ const Header = () => {
         {/* Source Code Link */}
         {hasValidPageNumber && (
           <a
-            href={`https://github.com/astnai/astnai-labs/blob/master/app/${pageNumber}/page.tsx`}
+            href={`https://github.com/astnai/lab/blob/master/app/${pageNumber}/page.tsx`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-neutral-500 font-lora underline underline-offset-2 decoration-neutral-400 dark:decoration-neutral-600"
