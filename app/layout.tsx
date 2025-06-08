@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Lora } from "next/font/google";
+import { Geist, Geist_Mono, Lora, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+
+
+const pixelifySans = Pixelify_Sans({
+  variable: "--font-pixelify-sans",
+  subsets: ["latin"],
+});
 
 const lora = Lora({
   variable: "--font-lora",
@@ -30,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-x-hidden touch-manipulation">
       <body
-        className={`${geistSans.className} ${geistMono.variable} ${lora.variable} antialiased text-sm sm:text-base text-neutral-800 dark:text-neutral-200`}
+        className={`${geistSans.className} ${geistMono.variable} ${lora.variable} ${pixelifySans.variable} antialiased text-sm sm:text-base text-neutral-800 dark:text-neutral-200`}
       >
         <Header />
         {children}

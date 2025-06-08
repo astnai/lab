@@ -57,7 +57,7 @@ const ArtworkCaption = ({
   </footer>
 );
 
-export default function ArtworkDisplay() {
+export default function Page02() {
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
