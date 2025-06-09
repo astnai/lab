@@ -1,150 +1,107 @@
 "use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
 
-import { useEffect, useState, useCallback } from "react";
-import NumberFlow from "@number-flow/react";
+// Types
+type ArtworkMetadata = {
+  title: string;
+  year: string;
+  artist: string;
+  artistYears: string;
+  museum: string;
+  location: string;
+};
 
-/**
- * Represents the location information structure
- */
-interface Location {
-  city: string;
-  country: string;
-  timezone: string;
-  offset: string;
-}
+// Constants
+const TITLE_ROTATION_INTERVAL = 2000; // 2.5 seconds
+const TITLE_TRANSITION_DURATION = 400; // 0.4 seconds
 
-/**
- * Main clock component that displays current time and location
- */
-export default function Page01() {
-  // State management
-  const [time, setTime] = useState<Date | null>(null);
-  const [location, setLocation] = useState<Location | null>(null);
-  const [showLocation, setShowLocation] = useState(false);
+const ARTWORK_TITLES = [
+  "The Great Wave off Kanagawa",
+  "Kanagawa-oki Nami Ura",
+  "神奈川沖浪裏",
+] as const;
 
-  // Derived state
-  const hours = time?.getHours() ?? 0;
-  const minutes = time?.getMinutes() ?? 0;
-  const seconds = time?.getSeconds() ?? 0;
+const ARTWORK_METADATA: Omit<ArtworkMetadata, "title"> = {
+  year: "1831",
+  artist: "Katsushika Hokusai",
+  artistYears: "1760-1849",
+  museum: "Metropolitan Museum of Art",
+  location: "1000 5th Ave, New York, NY 10028, USA",
+};
 
-  /**
-   * Formats timezone offset to GMT format
-   */
-  const formatTimezoneOffset = useCallback((offset: number): string => {
-    return `GMT${offset <= 0 ? "+" : "-"}${Math.abs(offset / 60)}`;
-  }, []);
+// Components
+const ArtworkCaption = ({
+  title,
+  year,
+  artist,
+  artistYears,
+  museum,
+  location,
+  isTransitioning,
+}: ArtworkMetadata & { isTransitioning: boolean }) => (
+  <footer className="absolute -bottom-0 right-0 transform translate-y-full text-right flex flex-col items-end text-[10px] md:text-sm text-neutral-800 dark:text-neutral-200 pt-2 pr-1 italic">
+    <p>
+      <span
+        className={`transition-opacity duration-[${TITLE_TRANSITION_DURATION}ms] ease-in-out ${
+          isTransitioning ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        {title}
+      </span>
+      <span> ({year})</span>
+    </p>
+    <p>{`${artist} (${artistYears})`}</p>
+    <p>{museum}</p>
+    <p>{location}</p>
+  </footer>
+);
 
-  /**
-   * Extracts city name from timezone string
-   */
-  const extractCityFromTimezone = useCallback((timezone: string): string => {
-    return timezone.split("/").pop()?.replace(/_/g, " ") || "";
-  }, []);
+export default function Page02() {
+  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  /**
-   * Creates location data from timezone information
-   */
-  const createLocationFromTimezone = useCallback((): Location => {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const now = new Date();
-    const offset = now.getTimezoneOffset();
-    const formattedOffset = formatTimezoneOffset(offset);
-    const cityFromTimezone = extractCityFromTimezone(timeZone);
+  const currentMetadata: ArtworkMetadata = {
+    ...ARTWORK_METADATA,
+    title: ARTWORK_TITLES[currentTitleIndex],
+  };
 
-    return {
-      city: cityFromTimezone,
-      country: "",
-      timezone: timeZone,
-      offset: formattedOffset,
-    };
-  }, [formatTimezoneOffset, extractCityFromTimezone]);
-
-  /**
-   * Fetches and sets location information
-   */
-  const fetchLocationInfo = useCallback(async () => {
-    // Set initial location from timezone
-    const timezoneLocation = createLocationFromTimezone();
-    setLocation(timezoneLocation);
-
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
-
-      const response = await fetch("https://ipapi.co/json/", {
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      // Only update if we got valid data
-      if (data?.city || data?.country_code) {
-        setLocation({
-          city: data.city || timezoneLocation.city,
-          country: data.country_code || "",
-          timezone: timezoneLocation.timezone,
-          offset: timezoneLocation.offset,
-        });
-      }
-    } catch (error) {
-      // Error is already handled by the initial timezone-based location
-      console.debug("Location fetch failed, using timezone data:", error);
-    }
-  }, [createLocationFromTimezone]);
-
-  // Initialize time and location
   useEffect(() => {
-    fetchLocationInfo();
+    const titleRotationInterval = setInterval(() => {
+      setIsTransitioning(true);
 
-    const initialTimer = setTimeout(() => {
-      setTime(new Date());
-      setShowLocation(true);
-    }, 1600);
+      const titleChangeTimeout = setTimeout(() => {
+        setCurrentTitleIndex(
+          (prevIndex) => (prevIndex + 1) % ARTWORK_TITLES.length
+        );
+        setIsTransitioning(false);
+      }, TITLE_TRANSITION_DURATION);
 
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
+      return () => clearTimeout(titleChangeTimeout);
+    }, TITLE_ROTATION_INTERVAL);
 
-    return () => {
-      clearTimeout(initialTimer);
-      clearInterval(timer);
-    };
-  }, [fetchLocationInfo]);
+    return () => clearInterval(titleRotationInterval);
+  }, []);
 
   return (
-    <main className="flex items-center justify-center h-[calc(100vh-44px)]">
-      <div className="flex flex-col items-center">
-        {/* Time Display */}
-        <div className="text-5xl sm:text-6xl font-medium font-mono tracking-tighter text-black dark:text-white">
-          <NumberFlow value={hours} format={{ minimumIntegerDigits: 2 }} />
-          <span>:</span>
-          <NumberFlow value={minutes} format={{ minimumIntegerDigits: 2 }} />
-          <span>:</span>
-          <NumberFlow value={seconds} format={{ minimumIntegerDigits: 2 }} />
+    <main className="relative w-full h-screen flex items-center justify-center">
+      <section className="relative w-[90%] sm:w-[80%] md:w-[70%] lg:w-1/3 aspect-[3/2]">
+        <div className="w-full h-full relative">
+          <Image
+            src="/02/great-wave.webp"
+            alt={`${currentMetadata.title} by ${currentMetadata.artist}`}
+            width={1071}
+            height={720}
+            priority
+            className="object-contain"
+          />
         </div>
 
-        {/* Location Display */}
-        <div className="h-2 sm:-mt-2">
-          <div
-            className={`text-base sm:text-xl text-neutral-500 font-lora transition-all duration-400 ease-in-out transform translate-y-0 ${
-              showLocation ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            {location && (
-              <>
-                <span>{location.city}</span>
-                {location.country && <span>, {location.country}</span>}
-                <span className="ml-2">{location.offset}</span>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+        <ArtworkCaption
+          {...currentMetadata}
+          isTransitioning={isTransitioning}
+        />
+      </section>
     </main>
   );
 }
