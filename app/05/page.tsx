@@ -88,7 +88,7 @@ export default function Page02() {
       <section className="relative w-[90%] sm:w-[80%] md:w-[70%] lg:w-1/3 aspect-[3/2]">
         <div className="w-full h-full relative">
           <Image
-            src="/02/great-wave.webp"
+            src="/05/great-wave.webp"
             alt={`${currentMetadata.title} by ${currentMetadata.artist}`}
             width={1071}
             height={720}

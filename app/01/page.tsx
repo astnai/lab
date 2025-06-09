@@ -68,7 +68,7 @@ export default function Page05() {
   return (
     <div className="min-h-screen w-full mt-18 px-4.5 max-w-screen-md mx-auto">
       <div className="italic text-neutral-500 text-xs sm:text-sm mb-2">
-        *Created by 4o image generation
+        <span className="text-blue-500">*</span>Created by 4o image generation
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4.5 sm:gap-4 mx-auto">
         {images.map((image, index) => (
