@@ -15,11 +15,19 @@ const images: ImageItem[] = [
     src: "/05/new-balance-sneakers.webp",
   },
   {
+    title: "Flower Bouquet",
+    src: "/05/flowers.webp",
+  },
+  {
+    title: "Link's Sword and Shield",
+    src: "/05/link-sword-shield.webp",
+  },
+  {
     title: "Starbucks Coffee",
     src: "/05/starbucks-coffee.webp",
   },
   {
-    title: "Mate Cup",
+    title: "Mate",
     src: "/05/mate.webp",
   },
   {
@@ -27,7 +35,7 @@ const images: ImageItem[] = [
     src: "/05/gameboy-cartridge.webp",
   },
   {
-    title: "Keyboard Key",
+    title: "A Key",
     src: "/05/a-key.webp",
   },
   {
@@ -37,6 +45,23 @@ const images: ImageItem[] = [
   {
     title: "Straw Hat",
     src: "/05/straw-hat.webp",
+  },
+  {
+    title: "Bonsai Tree",
+    src: "/05/bonsai.webp",
+  },
+  {
+    title: "Ergonomic Chair",
+    src: "/05/chair.webp",
+  },
+  {
+    title: "Motorcycle Helmet",
+    src: "/05/helmet.webp",
+  },
+
+  {
+    title: "NASA Spacecraft",
+    src: "/05/nasa.webp",
   },
 ];
 
